@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Inventory Item</title>
+    <link rel="stylesheet" href="/styles/core-styles.css">
+</head>
+<body>
+    <h1>Create New Inventory Item</h1>
+    <form id="new-inv-item-form">
+        <label for="item-name">Item Name:</label>
+        <input type="text" id="item-name" name="item-name" required><br><br>
+
+        <label for="item-quantity">Quantity:</label>
+        <input type="number" id="item-quantity" name="item-quantity" required><br><br>
+
+        <label for="item-price">Per Unit Price:</label>
+        <input type="number" step="0.01" id="item-price" name="item-price" required><br><br>
+
+        <label for="item-primary-type">Item Type:</label>
+        <select id="item-primary-type" name="item-primary-type" required>
+            <option value="list">List</option>
+            <option value="physical">Physical</option>
+            <option value="digital">Digital</option>
+            <option value="activity">Activity</option>
+            <option value="link">Link</option>
+            <option value="raw">Raw</option>
+            <option value="custom">Custom</option>
+        </select><br><br>
+
+        <label for="item-description">Description:</label><br>
+        <textarea id="item-description" name="item-description" rows="4" cols="50"></textarea><br><br>
+
+        <label for="item-location">Location:</label>
+        <input type="text" id="item-location" name="item-location" required><br><br>
+
+        // <label for="item-last-scanned">Last Scanned Date:</label>
+        // <input type="date" id="item-last-scanned" name="item-last-scanned"><br><br>
+
+        <div id="physical" style="display: none;">
+            <label for="item-weight">Weight:</label>
+            <input type="number" step="0.01" id="item-weight" name="item-weight">
+            <select id="item-weight-unit" name="item-weight-unit">
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+                <option value="g">g</option>
+                <option value="oz">oz</option>
+                <option value="gal">gal</option>
+                <option value="l">l</option>
+            </select>
+            <br><br>
+            <label for="item-dimensions-length">Length:</label>
+            <input type="number" step="0.01" id="item-dimensions-length" name="item-dimensions-length">
+                <select id="item-dimensions-length-unit" name="item-dimensions-length-unit">
+                <option value="cm">cm</option>
+                <option value="in">in</option>
+                <option value="m">m</option>
+                <option value="ft">ft</option>
+                <option value="mm">mm</option>
+            </select>
+            <br><br>
+            <label for="item-dimensions-width">Width:</label>
+            <input type="number" step="0.01" id="item-dimensions-width" name="item-dimensions-width">
+                <select id="item-dimensions-width-unit" name="item-dimensions-width-unit">
+                <option value="cm">cm</option>
+                <option value="in">in</option>
+                <option value="m">m</option>
+                <option value="ft">ft</option>
+                <option value="mm">mm</option>
+            </select>
+            <br><br>
+            <label for="item-dimensions-height">Height:</label>
+            <input type="number" step="0.01" id="item-dimensions-height" name="item-dimensions-height">
+            <select id="item-dimensions-height-unit" name="item-dimensions-height-unit">
+                <option value="cm">cm</option>
+                <option value="in">in</option>
+                <option value="m">m</option>
+                <option value="ft">ft</option>
+                <option value="mm">mm</option>
+            </select>
+            <br><br>
+            <label for="item-type">Item Type:</label>
+            <select id="item-type" name="item-type" required>
+                <option value="parishable">Parishable</option>
+                <option value="consumable">Consumable</option>
+                <option value="medical">Medical</option>
+                <option value="tool">Tool</option>
+                <option value="cord">Cord</option>
+                <option value="book">Book</option>
+                <option value="furniture">Furniture</option>
+                <option value="document">Document</option>
+                <option value="electronics">Electronics</option>
+                <option value="media">Media</option>
+                <option value="custom">Custom</option>
+            </select>
+            <br><br>
+        </div>
+
+        <div id="list" style="display: none;">
+            <label for="item-list-items">List Items (comma separated):</label><br>
+            <textarea id="item-list-items" name="item-list-items" rows="4" cols="50"></textarea><br><br>
+        </div>
+
+        <div id="activity" style="display: none;">
+            <label for="item-activity-type">Activity Type:</label>
+            <select id="item-activity-type" name="item-activity-type" required>
+                <option value="exercise">Exercise</option>
+                <option value="hobby">Hobby</option>
+                <option value="event">Event</option>
+                <option value="chore">Chore</option>
+                <option value="task">Task</option>
+                <option value="self-maintenance">Self-Maintenance</option>
+                <option value="custom">Custom</option>
+            </select>
+            <label for="activity-length">Activity Length:</label>
+            <input type="number" step="0.01" id="activity-length" name="activity-length">
+            <select id="activity-length-unit" name="activity-length-unit">
+                <option value="min">min</option>
+                <option value="hr">hr</option>
+                <option value="day">day</option>
+                <option value="week">week</option>
+                <option value="month">month</option>
+                <option value="year">year</option>
+            </select>
+            <label for="activity-date">Activity Date:</label>
+            <input type="date" id="activity-date" name="activity-date">
+            <br><br>
+            <label for="activity-location">Activity Location:</label>
+            <input type="text" id="activity-location" name="activity-location">
+            <br><br>
+            <label for="activity-description">Activity Description:</label>
+            <br><br>
+            <textarea id="activity-description" name="activity-description" rows="4" cols="50"></textarea>
+            <br><br>
+            <label for="activity-recurring">Recurring Activity:</label>
+            <input type="checkbox" id="activity-recurring" name="activity-recurring">
+        </div>
+        <div id = "link" style="display: none;">
+            <label for="item-link-url">Link URL:</label>
+            <input type="url" id="item-link-url" name="item-link-url" required><br><br>
+        </div>
+        <div id="raw" style="display: none;">
+            <label for="item-raw-data">Raw Data:</label><br>
+            <textarea id="item-raw-data" name="item-raw-data" rows="4" cols="50"></textarea><br><br>
+        </div>
+
+        <button type="submit" name="add-new-item-button" >Add Item</button>
+    </form>
+    <script>
+        input = document.getElementById("item-primary-type");
+        input.addEventListener("change", (event) => {
+            // Hide all sections
+            document.getElementById("physical").style.display = "none";
+            document.getElementById("list").style.display = "none";
+            document.getElementById("activity").style.display = "none";
+            document.getElementById("link").style.display = "none";
+            document.getElementById("raw").style.display = "none";
+
+            // Show the selected section
+            document.getElementById(event.target.value).style.display = "block";
+        });
+
+        btnSubmit = document.getElementsByName("add-new-item-button")[0];
+        btnSubmit.addEventListener("click", (event) => {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById("new-inv-item-form"));
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            pywebview.api.add_new_inv_item(data).then(response => {
+                console.log("Item added successfully:", response);
+            }).catch(error => {
+                console.error("Error adding item:", error);
+            });
+        });
+
+    </script>
+</body>
+</html>

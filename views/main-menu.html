@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Menu</title>
+    <link rel="stylesheet" href="/styles/core-styles.css">
+    <link rel="stylesheet" href="/styles/main-menu-styles.css">
+</head>
+<body>
+    <h1>Main Menu</h1>
+    <nav>
+        <ul>
+            <li><a href='/add-new-inv-item.html'>Add New Inventory Item</a></li>
+            <li><a href='/edit-inv-item.html'>Edit Inventory Item</a></li>
+            <li><a href='/access-inv-item.html'>Access Inventory Item</a></li>
+            <li><a href='/options.html'>Options</a></li>
+        </ul>
+    </nav>
+    <br><br>
+    <p id="db-status">Inventory Database Connection Status: <span id="db-status-text"></span></p>
+    <script>
+        
+        dbStatusElement = document.getElementById('db-status-text');
+        
+        async function updateDbStatus(status) {
+            await new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+                pywebview.api.check_db_connection().then((result) => {
+                    if (result) {
+                        dbStatusElement.textContent = 'Connected';
+                    } else {
+                        dbStatusElement.textContent = 'Disconnected';
+                    }
+                });
+            });
+        } updateDbStatus(status)
+        
+    </script>
+    </body>
+</html>
