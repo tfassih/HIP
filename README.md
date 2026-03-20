@@ -1,0 +1,3 @@
+--TODO
+- finish CRUD for inventory items
+- add barcode generation capability
