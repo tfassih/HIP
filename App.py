@@ -1,12 +1,14 @@
 from hmac import new
-
+from db.loader import config
 from flask import g
 import webview
 import psycopg2
-from db.loader import config
+from cfg.menu_items import newItem
+
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 from models.Item import Base, Item
+
 
 class API:
     def __init__(self):
@@ -19,6 +21,31 @@ class API:
 
     def check_db_connection(self):
         return self.connected
+    
+    def getNewItemTypes(self):
+        print(f"Retrieving new item types: {newItem['primaryType']}")
+        return newItem['primaryType']
+    
+    def getPhysicalItemTypes(self):
+        print(f"Retrieving physical item types: {newItem['physicalType']}")
+        return newItem['physicalType']
+    
+    def getPhysicalItemDimUnits(self):
+        print(f"Retrieving physical item dimension units: {newItem['physicalTypeDimUnits']}")
+        return newItem['physicalTypeDimUnits']
+    
+    def getPhysicalItemWeightUnits(self):
+        print(f"Retrieving physical item weight units: {newItem['physicalTypeWeightUnits']}")
+        return newItem['physicalTypeWeightUnits']
+    
+    def getActivityTypes(self):
+        print(f"Retrieving activity item types: {newItem['activityType']}")
+        return newItem['activityType']
+    
+    def getActivityLengthUnits(self):
+        print(f"Retrieving activity length units: {newItem['activityLengthUnits']}")
+        return newItem['activityLengthUnits']
+
 
 class InventoryServerController:
     def __init__(self, init_tests=True):
@@ -32,6 +59,18 @@ class InventoryServerController:
             'price': 9.99,
             'location': 'Test Location',
             'description': 'This is a test item.',
+            'primary_type': 'Physical',
+            'physical_type': 'Tool',
+            'physical_weight': 1.0,
+            'physical_weight_unit': 'kg',
+            'physical_length': 1.0,
+            'physical_length_unit': 'cm',
+            'physical_width': 1.0,
+            'physical_width_unit': 'cm',
+            'physical_height': 1.0,
+            'physical_height_unit': 'cm',
+            'item_type': 'Digital'
+
         }
         try:
             fail = 0
@@ -112,6 +151,15 @@ db_params = config()
 engine = create_engine(db_params['url'])
 Session = sessionmaker(bind=engine)
 session = Session()
+add_new_inv_item = None
+getNewItemTypes = newItem['primaryType']
+print(f"New item types loaded: {getNewItemTypes}")
+getPhysicalItemTypes = newItem['physicalType']
+getPhysicalItemDimUnits = [newItem['physicalTypeDimUnits'], newItem['physicalTypeDimUnits'], newItem['physicalTypeDimUnits']]
+getPhysicalItemWeightUnits = newItem['physicalTypeWeightUnits']
+getActivityTypes = newItem['activityType']
+getActivityLengthUnits = newItem['activityLengthUnits']
+
 api = API()
 inventory_init_tests = False
 database_controller = DatabaseController()
