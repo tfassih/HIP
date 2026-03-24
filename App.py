@@ -3,7 +3,7 @@ from db.loader import config
 from flask import g
 import webview
 import psycopg2
-from cfg.menu_items import newItem
+from cfg.menu_items import newItem, options
 
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
@@ -45,6 +45,10 @@ class API:
     def getActivityLengthUnits(self):
         print(f"Retrieving activity length units: {newItem['activityLengthUnits']}")
         return newItem['activityLengthUnits']
+    
+    def getOptionsMenu(self):
+        print(f"Retrieving options menu items: {options}")
+        return options
 
 
 class InventoryServerController:
@@ -69,7 +73,7 @@ class InventoryServerController:
             'physical_width_unit': 'cm',
             'physical_height': 1.0,
             'physical_height_unit': 'cm',
-            'item_type': 'Digital'
+            'item_type': 'Media'
 
         }
         try:
@@ -152,6 +156,7 @@ engine = create_engine(db_params['url'])
 Session = sessionmaker(bind=engine)
 session = Session()
 add_new_inv_item = None
+options_menu = options
 getNewItemTypes = newItem['primaryType']
 print(f"New item types loaded: {getNewItemTypes}")
 getPhysicalItemTypes = newItem['physicalType']

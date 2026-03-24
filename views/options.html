@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Options</title>
-</head>
-<body>
-    <h1>Options</h1>
-
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Options</title>
+        <link rel="stylesheet" href="/styles/core-styles.css">
+        <link rel="stylesheet" href="/styles/options-menu-styles.css">
+    </head>
+    <body>
+        <h1>Options</h1>
+        <script>
+            async function fetchOptionsMenu() {
+                await new Promise(resolve => setTimeout(resolve, 500)).then(() => {
+                    pywebview.api.getOptionsMenu().then((result) => {
+                        console.log("Options menu items:", result);
+                        const optionsList = document.createElement('ul');
+                        result.forEach(option => {
+                            const listItem = document.createElement('li');
+                            const link = document.createElement('a');
+                            link.href = '#';
+                            link.textContent = option;
+                            listItem.appendChild(link);
+                            optionsList.appendChild(listItem);
+                        });
+                        document.body.appendChild(optionsList);
+                    });
+                });
+            } fetchOptionsMenu()
+        </script>
     </body>
 </html>

@@ -57,3 +57,11 @@ newItem = {
                             "Months (mo)",
     ],
 }
+
+options = [
+    "Appearance",
+    "Account",
+    "Exit",
+]
+
+
