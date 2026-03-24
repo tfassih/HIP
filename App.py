@@ -49,7 +49,53 @@ class API:
     def getOptionsMenu(self):
         print(f"Retrieving options menu items: {options}")
         return options
-
+    
+    def getInventoryItem(self, data):
+        if data and isinstance(data, str) and not data.isdigit():
+            try:
+                item = session.query(Item).filter(Item.name == data).first()
+            except Exception as e:
+                print(f"Error occurred while retrieving inventory item by name: {e}")
+        elif data and isinstance(data, int) and data.isdigit():
+            try:
+                item = session.query(Item).filter(Item.id == data).first()
+            except Exception as e:
+                print(f"Error occurred while retrieving inventory item by ID: {e}")
+        else:
+            print(f"Invalid data provided for retrieving inventory item: {data}")
+            return None
+        if item:
+            return item
+        else:
+            print(f"Inventory item with data {data} not found.")
+            return None
+        
+    def deleteInventoryItem(self, data):
+        if data and isinstance(data, int) and data.isdigit():
+            try:
+                item = session.query(Item).filter(Item.id == data).first()
+            except Exception as e:
+                print(f"Error occurred while retrieving inventory item for deletion by ID: {e}")
+                return False
+        elif data and isinstance(data, str) and not data.isdigit():
+            try:
+                item = session.query(Item).filter(Item.name == data).first()
+            except Exception as e:
+                print(f"Error occurred while retrieving inventory item for deletion by name: {e}")
+                return False
+        else:
+            print(f"Invalid data provided for deleting inventory item: {data}")
+            return False
+        if item:
+            try:
+                session.delete(item)
+                session.commit()
+                print(f"Inventory item with ID {data} deleted successfully.")
+                return True
+            except Exception as e:
+                print(f"Error occurred while deleting inventory item with ID {data}: {e}")
+                return False
+        return False
 
 class InventoryServerController:
     def __init__(self, init_tests=True):

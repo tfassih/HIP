@@ -1,12 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access Inventory Item</title>
-</head>
-<body>
-    <h1>Access Inventory Item</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Access Inventory Item</title>
+    </head>
+    <body>
+        <h1>Access Inventory Item</h1>
+        <br><br>
+        <label for="search-choice">Search by:</label>
+        <select id="search-choice">
+            <option value="item_id">Item ID</option>
+            <option value="item_name">Item Name</option>
+        </select>
+        <br><br>
+        <input type="text" id="search-data" placeholder="Enter search data">
+        <br><br>
+        <button onclick="performSearch()">Search</button>
+        <br><br>
+        <button><a href="main-menu.html">Return to Main Menu</a></button>
+        <script>
+            function performSearch() {
+                const searchChoice = document.getElementById('search-choice').value;
+                const searchData = document.getElementById('search-data').value;
+                search(searchChoice, searchData);
+            }
+            async function fetchAccessItemData(item_id) {
+                await new Promise(resolve => setTimeout(resolve, 500)).then(() => {
+                    pywebview.api.getInventoryItem(item_id).then((result) => {
+                        console.log("Access item data:", result);
+                        document.getElementById('search-data').style.display = 'none';
+                        document.querySelector('button').style.display = 'none';
+                        document.getElementById('search-choice').style.display = 'none';
+                        const itemDataList = document.createElement('ul');
+                        for (const [key, value] of Object.entries(result)) {
+                            const listItemLabel = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ') + ':';
+                            const listItemLabelElement = document.createElement('p');
+                            listItemLabelElement.textContent = listItemLabel;
+                            const listItem = document.createElement('li');
+                            listItem.textContent = `${value}`;
+                            itemDataList.appendChild(listItemLabelElement);
+                            itemDataList.appendChild(listItem);
 
-</body>
+                        }
+                        document.body.appendChild(itemDataList);
+                        const backButton = document.createElement('button');
+                        const editButton = document.createElement('button');
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete Item';
+                        editButton.textContent = 'Edit Item';
+                        backButton.textContent = 'Back to Search';
+                        backButton.onclick = () => {
+                            itemDataList.remove();
+                            backButton.remove();
+                            document.getElementById('search-data').style.display = 'block';
+                            document.querySelector('button').style.display = 'block';
+                            document.getElementById('search-choice').style.display = 'block';
+                        };
+                        deleteButton.onclick = () => {
+                            pywebview.api.deleteInventoryItem(item_id).then((result) => {
+                                if (result) {
+                                    alert('Item deleted successfully');
+                                    backButton.click();
+                                } else {
+                                    alert('Failed to delete item');
+                                }
+                            });
+                        };
+                    });
+                });
+            } 
+
+            function search(choice, data){
+                if (choice === 'item_id') {
+                    item_id = data;
+                    fetchAccessItemData(item_id);
+                } else if (choice === 'item_name') {
+                    item_name = data;
+                    fetchAccessItemData(item_name);
+                }
+            }
+        </script>
+    </body>
 </html>
